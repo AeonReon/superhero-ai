@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Superhero AI — Invite-Only Mastermind for People Building the Cutting Edge</title>
+  <meta name="description" content="A small biweekly room of business owners actually building the AI tech everyone else is just tweeting about. Personal Jarvis-style assistants. Drone swarms. Custom apps. By invite only." />
+  <meta name="theme-color" content="#4F46E5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #4F46E5;
+      --accent-dark: #3730A3;
+      --accent-soft: #EEF0FF;
+      --cream: #FFFBF5;
+      --warm: #FFF4E8;
+      --warm-deep: #FFE8D4;
+      --ink: #15151D;
+      --ink-soft: #5A5A6A;
+      --dark: #0F0F1A;
+      --dark-alt: #1A1A28;
+      --dark-text: #FFFBF5;
+      --gold: #FCD34D;
+      --gold-deep: #D9A91B;
+      --green: #25D366;
+      --border: rgba(21, 21, 29, 0.08);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+      --shadow-md: 0 8px 24px rgba(0,0,0,.08);
+      --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.18);
+      --radius: 10px;
+      --radius-pill: 100px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.6;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.15; letter-spacing: -0.01em; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800; }
+    h2 { font-size: clamp(1.9rem, 4.5vw, 3.2rem); font-weight: 800; }
+    h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 700; }
+    p { font-size: clamp(1rem, 1.6vw, 1.15rem); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .container-narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+    /* ─── Pre-headline strip ─── */
+    .pre-strip {
+      background: var(--ink);
+      color: var(--cream);
+      text-align: center;
+      padding: 12px 24px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .pre-strip .accent { color: var(--gold); }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: var(--cream);
+      padding: 72px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 20px;
+    }
+    .hero h1 { margin-bottom: 22px; }
+    .hero h1 .em { color: var(--accent); }
+    .hero-sub {
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      color: var(--ink-soft);
+      margin-bottom: 32px;
+      max-width: 560px;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 18px 32px;
+      border-radius: var(--radius-pill);
+      border: 3px solid var(--accent-dark);
+      box-shadow: 0 6px 0 var(--accent-dark), 0 14px 30px rgba(79, 70, 229, 0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      transform: translateY(2px);
+      box-shadow: 0 4px 0 var(--accent-dark), 0 8px 18px rgba(79, 70, 229, 0.35);
+    }
+    .btn-primary:active {
+      transform: translateY(6px);
+      box-shadow: 0 0px 0 var(--accent-dark), 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    .btn-primary.large { font-size: 1.15rem; padding: 22px 40px; }
+    .hero-trust {
+      margin-top: 20px;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .hero-trust strong { color: var(--ink); }
+    .hero-image {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/5;
+      background: var(--warm);
+    }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.25) 100%);
+    }
+    .hero-image-tag {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: rgba(255, 251, 245, 0.95);
+      backdrop-filter: blur(6px);
+      padding: 12px 18px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: var(--shadow-md);
+      z-index: 2;
+    }
+    .hero-image-tag::before {
+      content: '🔴';
+      margin-right: 8px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ─── Countdown banner ─── */
+    .countdown-banner {
+      background: var(--warm);
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .countdown-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .countdown-cell {
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 18px 20px;
+      min-width: 90px;
+      box-shadow: var(--shadow-sm);
+    }
+    .countdown-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .countdown-unit {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .countdown-meta {
+      margin-top: 18px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ─── Generic section ─── */
+    .section {
+      padding: 88px 0;
+      position: relative;
+    }
+    .section-cream { background: var(--cream); }
+    .section-warm { background: var(--warm); }
+    .section-warm-deep { background: var(--warm-deep); }
+    .section-dark {
+      background: var(--dark);
+      color: var(--dark-text);
+    }
+    .section-dark h2, .section-dark h3 { color: var(--dark-text); }
+    .section-dark p { color: rgba(255, 251, 245, 0.85); }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .section-dark .section-eyebrow { color: var(--gold); }
+    .section h2 { margin-bottom: 22px; }
+    .section-lede {
+      font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+      color: var(--ink-soft);
+      margin-bottom: 36px;
+      max-width: 720px;
+    }
+    .section-dark .section-lede { color: rgba(255, 251, 245, 0.78); }
+
+    .section-text-center { text-align: center; }
+    .section-text-center .section-lede { margin-left: auto; margin-right: auto; }
+
+    /* ─── Testimonials ─── */
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 28px;
+      margin-top: 44px;
+    }
+    .test-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 26px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .test-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .section-warm .test-card { background: var(--cream); }
+    .test-stars {
+      color: var(--gold-deep);
+      font-size: 1rem;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+    .test-quote {
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: var(--ink);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+    .test-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .test-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .test-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    .test-role {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    /* ─── Two-col / problem section ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .two-col.reverse .col-text { order: 2; }
+    .two-col.reverse .col-img { order: 1; }
+    .col-img {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      box-shadow: var(--shadow-md);
+    }
+    .col-img img { width: 100%; height: 100%; object-fit: cover; }
+    .body-text p { margin-bottom: 16px; font-size: 1.05rem; line-height: 1.7; }
+    .body-text strong { color: var(--accent); font-weight: 700; }
+    .section-dark .body-text strong { color: var(--gold); }
+
+    /* ─── Outcome cards ─── */
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 44px;
+    }
+    .outcome-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s;
+      text-align: left;
+    }
+    .outcome-card:hover { transform: translateY(-4px); }
+    .outcome-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    .outcome-body { padding: 22px 24px 28px; }
+    .outcome-body h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .outcome-body p { font-size: 0.98rem; color: var(--ink-soft); }
+
+    /* ─── Wins / project pills ─── */
+    .wins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      margin-top: 38px;
+    }
+    .win-pill {
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 0 0 22px;
+      box-shadow: 0 4px 0 var(--ink);
+      transition: transform 0.15s, box-shadow 0.15s;
+      overflow: hidden;
+      text-align: left;
+    }
+    .win-pill:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+    .win-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+    }
+    .win-body { padding: 18px 22px 0; }
+    .win-pill h4 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .win-pill p { font-size: 0.92rem; color: var(--ink-soft); margin: 0; }
+
+    /* ─── Offer / logistics ─── */
+    .offer-box {
+      background: var(--cream);
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 44px 40px;
+      box-shadow: 0 8px 0 var(--ink);
+      max-width: 740px;
+      margin: 36px auto 0;
+      text-align: left;
+    }
+    .offer-list {
+      list-style: none;
+      margin: 24px 0 32px;
+    }
+    .offer-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.05rem;
+    }
+    .offer-list li:last-child { border-bottom: none; }
+    .offer-list .label {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 130px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Urgency block ─── */
+    .urgency-inner {
+      text-align: center;
+    }
+    .urgency-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 22px;
+      font-size: 0.95rem;
+    }
+    .urgency-stat::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ─── FAQ ─── */
+    .faq-list { max-width: 760px; margin: 44px auto 0; text-align: left; }
+    .faq-item {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .faq-item.open { box-shadow: var(--shadow-md); }
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 22px 26px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: var(--cream);
+    }
+    .faq-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 800;
+      transition: transform 0.2s;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-item.open .faq-a { max-height: 800px; }
+    .faq-a-inner {
+      padding: 4px 26px 24px;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    /* ─── Final CTA ─── */
+    .final-cta {
+      text-align: center;
+    }
+    .final-cta h2 { margin-bottom: 24px; }
+    .final-cta .lede {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: rgba(255, 251, 245, 0.85);
+      margin-bottom: 38px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta .btn-primary { background: var(--gold); color: var(--ink); border-color: var(--gold-deep); box-shadow: 0 6px 0 var(--gold-deep), 0 14px 30px rgba(252, 211, 77, 0.35); }
+    .final-cta .btn-primary:hover { box-shadow: 0 4px 0 var(--gold-deep), 0 8px 18px rgba(252, 211, 77, 0.4); }
+
+    /* ─── Sign-up form ─── */
+    .signup-form {
+      max-width: 520px;
+      margin: 32px auto 0;
+      background: var(--cream);
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 0 var(--ink);
+      text-align: left;
+    }
+    .signup-form h3 {
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .form-field { margin-bottom: 14px; }
+    .form-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--ink);
+      background: white;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .form-submit {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px;
+      border-radius: var(--radius-pill);
+      border: 3px solid var(--accent-dark);
+      box-shadow: 0 4px 0 var(--accent-dark);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-top: 8px;
+    }
+    .form-submit:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--accent-dark); }
+    .form-submit.success { background: var(--green); border-color: #1AAF54; box-shadow: 0 4px 0 #1AAF54; }
+    .form-success-msg {
+      text-align: center;
+      padding: 16px 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .form-success-msg .check {
+      display: inline-block;
+      width: 56px; height: 56px;
+      background: var(--green);
+      color: white;
+      border-radius: 50%;
+      line-height: 56px;
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+    }
+    .form-fine {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-top: 14px;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      padding: 44px 24px;
+      text-align: center;
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+    .footer a { color: var(--ink-soft); text-decoration: underline; }
+
+    /* ─── Fade-up animations (progressive enhancement) ─── */
+    .fade-up { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.will-animate { opacity: 0; transform: translateY(30px); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 860px) {
+      .hero { padding: 48px 0 40px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+      .hero-image { aspect-ratio: 4/3; max-height: 400px; }
+      .two-col { grid-template-columns: 1fr; gap: 32px; }
+      .two-col.reverse .col-text { order: 1; }
+      .two-col.reverse .col-img { order: 2; }
+      .col-img { aspect-ratio: 4/3; max-height: 380px; }
+      .section { padding: 60px 0; }
+      .countdown-cell { min-width: 70px; padding: 14px 12px; }
+      .offer-box { padding: 32px 24px; }
+      .pre-strip { font-size: 0.82rem; }
+      .offer-list .label { min-width: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ PRE-HEADLINE STRIP ═══════════════ -->
+<div class="pre-strip">
+  ⚡ <span class="accent">By invite only:</span> Next meeting in <span id="strip-countdown">—</span>. The room stays small.
+</div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-eyebrow">For the awesome few — by invite only</span>
+        <h1>Stop reading about the cutting edge. Get inside the room <span class="em">building it.</span></h1>
+        <p class="hero-sub">A small biweekly mastermind of business owners actually building the AI tech everyone else is still tweeting about. Personal Jarvis-style assistants. Drone swarms. Custom apps and games. The stuff most people are still wishing for from the sidelines.</p>
+        <div class="hero-cta-row">
+          <a href="#signup" class="btn-primary">Yes — Lock In My Spot</a>
+        </div>
+        <div class="hero-trust">Next meeting: <strong id="event-date">—</strong> · Live on Zoom · ~90 minutes · Invite only.</div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=900&q=70" alt="Cutting-edge AI workspace — a glimpse of the kind of tech the room builds together" loading="eager" />
+        <div class="hero-image-tag">Live · Small group · Invite only</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ COUNTDOWN BANNER ═══════════════ -->
+<section class="countdown-banner">
+  <div class="container">
+    <div class="countdown-label">Next meeting starts in</div>
+    <div class="countdown-grid" id="countdown">
+      <div class="countdown-cell"><div class="countdown-num" id="cd-days">—</div><div class="countdown-unit">Days</div></div>
+      <div class="countdown-cell"><div class="countdown-num" id="cd-hours">—</div><div class="countdown-unit">Hours</div></div>
+      <div class="countdown-cell"><div class="countdown-num" id="cd-mins">—</div><div class="countdown-unit">Minutes</div></div>
+      <div class="countdown-cell"><div class="countdown-num" id="cd-secs">—</div><div class="countdown-unit">Seconds</div></div>
+    </div>
+    <p class="countdown-meta">Biweekly. Same time, same room. Members come and go as life allows.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS BLOCK 1 ═══════════════ -->
+<section class="section section-cream section-text-center">
+  <div class="container">
+    <span class="section-eyebrow">What members say</span>
+    <h2 class="fade-up">A small group of people who get it. That's the whole product.</h2>
+    <div class="test-grid">
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"I'd been bookmarking AI threads for two years and building approximately none of them. Three meetings in I had a Jarvis running in my house. The room is the unlock."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="Marc D." />
+          <div>
+            <div class="test-name">Marc D.</div>
+            <div class="test-role">Founder · E-commerce</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"I'm not a developer. I run a busy business. I drop in twice a month, listen, ask questions, leave with three new ideas I can actually use. It's the most efficient hour of my fortnight."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Hannah W." />
+          <div>
+            <div class="test-name">Hannah W.</div>
+            <div class="test-role">Owner · Retail Group</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"This stopped being a 'mastermind' and started being the most fun group of people I hang out with online. We just happen to be building the future together. No pressure, all upside."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Sam R." />
+          <div>
+            <div class="test-name">Sam R.</div>
+            <div class="test-role">Agency Owner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ THE PROBLEM ═══════════════ -->
+<section class="section section-warm">
+  <div class="container">
+    <div class="two-col">
+      <div class="col-text body-text">
+        <span class="section-eyebrow">The real problem</span>
+        <h2>You've been wishing for this from fantasy land.</h2>
+        <p>You read the threads. You bookmark the demos. You watch the YouTube guy wire up his house and you think <em>"god I wish I could do that."</em></p>
+        <p>And then you go back to the spreadsheet, or the inbox, or the next meeting — and the wish stays a wish.</p>
+        <p>You used to think it would take selling your company for millions to afford that life. The personal AI. The drone swarm watching the property. The custom apps without a dev team. The smart home that actually does what you say.</p>
+        <p>Here's the secret most people haven't caught up to: <strong>that price tag dropped through the floor.</strong></p>
+        <p>The tools are here. The cost is a fraction of what it used to be. The only thing you're missing is <strong>the room of people who already know how.</strong></p>
+        <p>Because grinding it out alone takes months. Scrolling X for the best thread takes weeks of your evenings. And neither of those is as fun as just being in the room with people who already cracked it.</p>
+      </div>
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=70" alt="Person scrolling AI content alone — the slow, lonely path" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ THE MECHANISM ═══════════════ -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="two-col reverse">
+      <div class="col-text body-text">
+        <span class="section-eyebrow">Why this works</span>
+        <h2>One small room. The right people. Biweekly.</h2>
+        <p>This isn't a course. There's no curriculum, no homework, no "intro module."</p>
+        <p>It's a group of business owners who are genuinely into this stuff, getting on Zoom every two weeks, showing what they've been building, swapping the techniques that just landed, and helping each other skip months of solo grinding.</p>
+        <p>Some weeks you'll come ready with something exciting to show. Other weeks you'll come tired, drop in for the footnotes, and leave with three ideas you can use on Monday. <strong>Both are completely fine.</strong></p>
+        <p>The point isn't pressure. The point is being <strong>around the right people often enough</strong> that the cutting edge stops being something you read about and starts being something you live in.</p>
+        <p>And honestly? It's just <strong>fun.</strong> The single best part of this whole thing is hanging out with other ambitious, curious, slightly-nerdy people who think building the future is the most exciting thing in the world. Because it is.</p>
+      </div>
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70" alt="Group collaboration — small focused team" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DARK SECTION — POTATO METAPHOR ═══════════════ -->
+<section class="section section-dark section-text-center">
+  <div class="container-narrow">
+    <span class="section-eyebrow">A small story</span>
+    <h2>While everyone else is still digging potatoes by hand.</h2>
+    <div class="body-text" style="margin-top: 22px; text-align: left;">
+      <p>Imagine a man who's spent his whole life digging potatoes by hand.</p>
+      <p>Down the road, the tractors arrived. Then the combine harvesters. Then the GPS-guided fully automated rigs that do in twenty minutes what used to take him a week.</p>
+      <p>He shrugs. <em>"Not for me. I'll stick with the spade."</em></p>
+      <p>The thing is — <strong>he's not making a living anymore.</strong> The neighbours with the harvesters are running circles around him. He's exhausted. His back hurts. And the potatoes are the same potatoes.</p>
+      <p>That's where most business owners are with AI right now. Spade in hand. Watching the harvesters roll past. Thinking <em>"I'll catch up eventually."</em></p>
+      <p>You know who catches up? <strong>The people who get in a room with the harvester drivers.</strong> Not the people reading newsletters about harvesters.</p>
+      <p>That's what this room is. A small one. Of harvester drivers. Comparing notes.</p>
+    </div>
+    <div style="margin-top: 38px;">
+      <a href="#signup" class="btn-primary">Yes — Lock In My Spot</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ OUTCOMES — WHAT YOU'LL ACTUALLY GET ═══════════════ -->
+<section class="section section-cream section-text-center">
+  <div class="container">
+    <span class="section-eyebrow">What being in the room actually does</span>
+    <h2 class="fade-up">Months of solo grinding, compressed into a Tuesday evening.</h2>
+    <p class="section-lede fade-up">No fluff outcomes. Here's the actual pattern members report after a few months.</p>
+    <div class="outcomes-grid">
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1558002038-1055907df827?w=700&q=70" alt="Modern smart workspace — the cutting edge in your daily life" loading="lazy" />
+        <div class="outcome-body">
+          <h3>You stop being the spectator</h3>
+          <p>You go from saving threads to actually building things. Within weeks you've shipped the first thing you've been "going to build" for two years.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=70" alt="Collaborative tech setup — shortcuts from real builders" loading="lazy" />
+        <div class="outcome-body">
+          <h3>You skip months of solo grinding</h3>
+          <p>The thing someone in the room cracked last month — that's an hour of conversation, not three weekends of YouTube. The room is the shortcut.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=70" alt="Group of people enjoying themselves — the social upside" loading="lazy" />
+        <div class="outcome-body">
+          <h3>You find your people</h3>
+          <p>Most business owners don't have a single friend who gets why this stuff is exciting. After a few meetings, you'll have ten.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ WHAT WE BUILD — PROJECT PILLS ═══════════════ -->
+<section class="section section-warm section-text-center">
+  <div class="container">
+    <span class="section-eyebrow">Some of what's already in the room</span>
+    <h2 class="fade-up">Real projects. Real members. Stuff most people still think is sci-fi.</h2>
+    <p class="section-lede fade-up">Not theory. Things people in this room are actually running today — and showing the others how.</p>
+    <div class="wins-grid">
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?w=600&q=70" alt="Smart home AI control" loading="lazy" />
+        <div class="win-body">
+          <h4>Your own personal Jarvis</h4>
+          <p>Custom AI wired into your house and car. Voice control, automation, total customisation. Built on Claude, runs locally, yours forever.</p>
+        </div>
+      </div>
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=70" alt="Drone in flight" loading="lazy" />
+        <div class="win-body">
+          <h4>Drone swarms + property surveillance</h4>
+          <p>Multi-drone coordination, AI-guided patrols, smart property monitoring. The kind of setup that used to need a security firm.</p>
+        </div>
+      </div>
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&q=70" alt="Custom app on phone" loading="lazy" />
+        <div class="win-body">
+          <h4>Custom apps + games — no dev team</h4>
+          <p>Apps for your business or family, learning games for the kids, internal tools that used to require a developer. Built by you in days.</p>
+        </div>
+      </div>
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=600&q=70" alt="File transfer interface" loading="lazy" />
+        <div class="win-body">
+          <h4>Replace the SaaS stack you're paying for</h4>
+          <p>File transfer, family sharing, internal comms, automation — built and owned by you, running on your own hardware. Subscriptions cancelled.</p>
+        </div>
+      </div>
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&q=70" alt="Streaming setup" loading="lazy" />
+        <div class="win-body">
+          <h4>Streaming + content automation</h4>
+          <p>AI-assisted streams, automated highlight reels, content pipelines that run themselves. Output goes up. Time goes down.</p>
+        </div>
+      </div>
+      <div class="win-pill fade-up">
+        <img class="win-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=70" alt="Cutting edge tools" loading="lazy" />
+        <div class="win-body">
+          <h4>Whatever drops next week</h4>
+          <p>The pace of new releases is the actual reason this room exists. Someone in the group will have used it before you've heard of it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS BLOCK 2 ═══════════════ -->
+<section class="section section-cream">
+  <div class="container">
+    <span class="section-eyebrow section-text-center" style="text-align:center; display:block;">A few more from inside the room</span>
+    <h2 class="fade-up" style="text-align:center;">"It's the most fun thing in my calendar."</h2>
+    <div class="test-grid">
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"My business doesn't run on AI. But I save 5–10 hours a week now thanks to stuff I picked up in this group. The ROI on a 90-minute meeting every fortnight is genuinely absurd."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&q=80" alt="Tom W." />
+          <div>
+            <div class="test-name">Tom W.</div>
+            <div class="test-role">Construction Owner</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"I missed three meetings in a row when work got mad. Came back, nobody made it weird, picked up exactly where I left off. The low-pressure thing isn't marketing — it's real."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&q=80" alt="Priya K." />
+          <div>
+            <div class="test-name">Priya K.</div>
+            <div class="test-role">Agency Founder</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"Genuinely the only place I've found where smart business people talk about drone swarms and custom AI without it feeling cringe. It's just guys who think this is fun."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" alt="Daniel R." />
+          <div>
+            <div class="test-name">Daniel R.</div>
+            <div class="test-role">SaaS Founder</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"I joined assuming I'd be the least technical person. I'm not. Half the room are normal business owners who just got curious. It's friendly, not gatekept."</p>
+        <div class="test-author">
+          <img class="test-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Anna L." />
+          <div>
+            <div class="test-name">Anna L.</div>
+            <div class="test-role">Retail Owner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ THE OFFER ═══════════════ -->
+<section class="section section-warm-deep section-text-center">
+  <div class="container-narrow">
+    <span class="section-eyebrow">Here's exactly what you're saying yes to</span>
+    <h2 class="fade-up">A biweekly Zoom. A small room. People you'll actually want to hang out with.</h2>
+    <div class="offer-box fade-up">
+      <ul class="offer-list">
+        <li><span class="label">When:</span><span>Biweekly · Next meeting <strong id="offer-date">—</strong> at 8pm UK time</span></li>
+        <li><span class="label">Where:</span><span>Zoom (link sent to you the day before)</span></li>
+        <li><span class="label">How long:</span><span>~90 minutes — show up, share, listen, leave</span></li>
+        <li><span class="label">Format:</span><span>Loose. Members share what they've built. Q&amp;A. Show-and-tell. Real talk.</span></li>
+        <li><span class="label">Time commitment:</span><span>As little as you like. Some weeks you share, some you just listen.</span></li>
+        <li><span class="label">Who it's for:</span><span>Awesome business owners who want to stay at the cutting edge — and have fun doing it</span></li>
+        <li><span class="label">Cost:</span><span>No fee — invite only. The price of admission is being someone the room wants in it.</span></li>
+      </ul>
+      <p style="font-size: 1.05rem; color: var(--ink-soft); margin: 0;">No upsell. No "module 1." No hard pitch. Just a small room of good people, comparing notes on the most exciting time in tech that's ever happened.</p>
+      <div style="margin-top: 28px; text-align: center;"><a href="#signup" class="btn-primary large">Yes — Lock In My Spot</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ URGENCY BLOCK (DARK) ═══════════════ -->
+<section class="section section-dark urgency-inner">
+  <div class="container">
+    <div class="urgency-stat">The room stays small on purpose</div>
+    <h2 class="fade-up">If you've been invited, this is your window.</h2>
+    <p class="section-lede fade-up" style="margin-left:auto; margin-right:auto;">We don't run a public list. The room only grows when one of us vouches for someone. If your name is on the invite, that already happened — all that's left is for you to say yes.</p>
+    <div class="countdown-grid" id="countdown-2" style="margin-top: 32px;">
+      <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-days" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Days</div></div>
+      <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-hours" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Hours</div></div>
+      <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-mins" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Minutes</div></div>
+      <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-secs" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Seconds</div></div>
+    </div>
+    <div style="margin-top: 38px;"><a href="#signup" class="btn-primary large">Yes — Lock In My Spot</a></div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="section section-cream section-text-center">
+  <div class="container">
+    <span class="section-eyebrow">Honest questions, honest answers</span>
+    <h2 class="fade-up">Things busy people ask before they say yes.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">I run a business — do I need to invest a lot of time into this?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. The whole format is built for time-poor business owners. It's 90 minutes every two weeks. There's no homework, no pre-reads, no follow-up tasks. If you only have time to lurk in the call, lurk. If a busy fortnight means you skip — skip. Come back next time. The room doesn't punish you for living a real life.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What if I don't have anything to share that week?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Completely normal. Most members come to most meetings as low-key participants. You sit, you listen, you absorb the footnotes, you ask a question if you have one, and you leave with three new ideas. The "share something" weeks are when you've got something cool — they're not a tax on attendance.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How technical do I need to be?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Not very. About half the room are normal business owners who got curious about what's possible — not engineers. The whole point of AI right now is that the technical bar dropped through the floor. If you can use a phone and you're willing to play, you're already there. Members will happily walk you through anything you want to try.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is there a fee?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No fee. But this isn't a "free mastermind" you stumbled across on Facebook either. It's invite only. The price of admission is being someone the existing room wants to spend two evenings a month with. If you've been invited, that's already been decided.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Why is it invite only?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Because the room is the product. The minute it becomes a public sign-up, the average drops, the conversation gets shallower, and the people who actually built cool stuff stop showing up. Keeping it small and vetted is how it stays useful — and fun. We've all been in big "communities" where the signal-to-noise ratio quietly killed the thing. Not this one.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What actually happens in the 90 minutes?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Loose structure. Whoever's got something cool to show — shows it. Whoever's got a question — asks it. We swap what's working, what's not, what just dropped this fortnight, what we're trying next. It's somewhere between a show-and-tell, a Q&amp;A, and a group of friends nerding out. The vibe is the point — not a slide deck.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Are meetings recorded?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">If members want a recording or notes for that session, we'll arrange it. Often the best stuff is off-the-record by design — people share things they wouldn't put on a public YouTube. We default to "in the room, stays in the room" unless we agree otherwise.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Can I bring a friend who'd be perfect for this?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes, please. The room grows the way the room was built — through people who already get it vouching for the next one. If someone you know belongs in this group, tell us. The bar is "would the existing room enjoy spending two evenings a month with this person." That's the whole filter.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What if I miss a few meetings in a row?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Nothing happens. Come back when you can. The members who get the most out of this are the ones who think of it as a low-pressure background drumbeat in their year — not a thing they're trying to be perfect about. Show up when life allows, drop in when something cool drops, and otherwise just live your life.</div></div>
+      </div>
+    </div>
+    <div style="margin-top: 44px;"><a href="#signup" class="btn-primary">Yes — Lock In My Spot</a></div>
+  </div>
+</section>
+
+<!-- ═══════════════ FINAL CTA + SIGNUP FORM (DARK) ═══════════════ -->
+<section class="section section-dark final-cta" id="signup">
+  <div class="container">
+    <span class="section-eyebrow">One last thing</span>
+    <h2 class="fade-up">The next two years of tech are going to be the wildest in living memory. Spend them with the right people.</h2>
+    <p class="lede fade-up">Drop your details. We'll send the Zoom link for the next meeting and a quick intro to the room. That's it.</p>
+
+    <form class="signup-form" id="signupForm" autocomplete="on">
+      <h3>Confirm your spot</h3>
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+      <input type="hidden" name="subject" value="Superhero AI — New Member Confirmation" />
+      <input type="hidden" name="redirect" value="" />
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+      <div class="form-field">
+        <label for="signup-name">First name</label>
+        <input type="text" id="signup-name" name="name" required autocomplete="given-name" placeholder="Sarah" />
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" required autocomplete="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-field">
+        <label for="signup-invitedby">Who invited you? (optional)</label>
+        <input type="text" id="signup-invitedby" name="invited_by" autocomplete="off" placeholder="Name of the member who invited you" />
+      </div>
+      <button type="submit" class="form-submit" id="formSubmit">Yes — Lock In My Spot</button>
+      <p class="form-fine">No fee · Invite only · We'll only email about the mastermind.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 Superhero AI · A small room of awesome people · Built by <a href="https://www.realfastwebsite.com">realfastwebsite.com</a></p>
+  </div>
+</footer>
+
+<script>
+  // ═══════════════════════════════════════════════════════════════════
+  //  CONFIG — edit ONLY these two constants to change the schedule
+  //  ANCHOR_DATE = a known meeting date/time (any past or future meeting)
+  //  INTERVAL_DAYS = cadence between meetings (14 = biweekly)
+  //  The next-meeting countdown auto-rolls forward forever from the anchor.
+  // ═══════════════════════════════════════════════════════════════════
+  const ANCHOR_DATE = new Date('2026-05-16T19:00:00Z'); // Sat 16 May 2026, 8pm UK summer time
+  const INTERVAL_DAYS = 14;
+
+  // ─── Compute the next upcoming meeting from the anchor ───
+  function nextMeetingDate() {
+    const now = new Date();
+    const intervalMs = INTERVAL_DAYS * 24 * 60 * 60 * 1000;
+    let next = new Date(ANCHOR_DATE);
+    if (next > now) return next;
+    const diffMs = now - next;
+    const cyclesPassed = Math.floor(diffMs / intervalMs) + 1;
+    return new Date(next.getTime() + cyclesPassed * intervalMs);
+  }
+  const NEXT_MEETING = nextMeetingDate();
+
+  // ─── Format the human-readable event date ───
+  (function formatEventDate() {
+    const opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    const formatted = NEXT_MEETING.toLocaleDateString('en-GB', opts);
+    document.querySelectorAll('#event-date, #offer-date').forEach(el => el.textContent = formatted);
+  })();
+
+  // ─── Live countdown (drives both visible countdowns + the strip) ───
+  let CURRENT_TARGET = NEXT_MEETING;
+  function updateCountdown() {
+    const now = new Date();
+    let diff = CURRENT_TARGET - now;
+    // If meeting passed mid-session, roll to the one after
+    if (diff <= 0) {
+      CURRENT_TARGET = new Date(CURRENT_TARGET.getTime() + INTERVAL_DAYS * 24 * 60 * 60 * 1000);
+      diff = CURRENT_TARGET - now;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v).padStart(2, '0'); };
+    set('cd-days', days); set('cd-hours', hours); set('cd-mins', mins); set('cd-secs', secs);
+    set('cd2-days', days); set('cd2-hours', hours); set('cd2-mins', mins); set('cd2-secs', secs);
+    const strip = document.getElementById('strip-countdown');
+    if (strip) strip.textContent = `${days}d ${hours}h ${mins}m`;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ─── FAQ accordion ───
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+      btn.setAttribute('aria-expanded', !wasOpen);
+    });
+  });
+
+  // ─── Smooth scroll-up animations (progressive enhancement) ───
+  if ('IntersectionObserver' in window) {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('will-animate'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  }
+
+  // ─── Sign-up form (Web3Forms AJAX) ───
+  const form = document.getElementById('signupForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submit = document.getElementById('formSubmit');
+      submit.textContent = 'Sending…';
+      submit.disabled = true;
+      try {
+        const formData = new FormData(form);
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          submit.textContent = 'Sent!';
+          submit.classList.add('success');
+          setTimeout(() => {
+            form.innerHTML = '<div class="form-success-msg"><span class="check">✓</span><h3>You\'re in.</h3><p style="margin-top:10px; color: var(--ink-soft);">We\'ll email the Zoom link the day before the next meeting. See you in the room.</p></div>';
+          }, 800);
+        } else {
+          submit.textContent = 'Something went wrong — try again';
+          submit.disabled = false;
+        }
+      } catch (err) {
+        submit.textContent = 'Something went wrong — try again';
+        submit.disabled = false;
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
