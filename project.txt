@@ -1,0 +1,85 @@
+PROJECT: Superhero AI Mastermind — Invite-Only Landing Page
+TYPE: Direct-response single-CTA conversion page
+SLUG: superhero-ai
+
+──────────────────────────────────────────────────────────────────
+THE OFFER
+──────────────────────────────────────────────────────────────────
+A biweekly online mastermind for awesome people who want to stay at the
+absolute cutting edge of AI and emerging tech — and actually build the
+stuff most people are still just reading about.
+
+NOT paid. But never label it "free." Frame it as INVITE ONLY for
+the few people we genuinely want in the room.
+
+The page is shown only to people who've already been invited. The job
+of the page is to make them confirm — not to convince a stranger.
+
+──────────────────────────────────────────────────────────────────
+WHAT THE GROUP DOES
+──────────────────────────────────────────────────────────────────
+Biweekly meetings on Zoom. Loose structure. Members share what they're
+building, what's exciting, what's working. Members who don't have
+something to share that week sit back and absorb the footnotes.
+
+What we actually build together / talk about:
+- Custom personal AI (Claude RC — your own Jarvis wired into car + home)
+- Drone swarms + property surveillance
+- Apps (chatnow, transfer-casa, family-matters, etc.)
+- Games (Aha! learning platform, etc.)
+- Streaming setups
+- New tools, new techniques, what's just landed
+- The cutting edge — together, not alone
+
+──────────────────────────────────────────────────────────────────
+TONE / VOICE
+──────────────────────────────────────────────────────────────────
+- Direct response, but FRIENDLY and FUN
+- Hyped but not pushy — these people are already invited
+- Confident: "this is for awesome people"
+- Specific: real projects, real tech, not vague "AI mastery"
+- The "potato digger" metaphor: while everyone's still digging by
+  hand, we're driving the combine harvester
+- "Stuff you used to wish you could do if you sold your company
+  for millions" — now available to people who stay at the edge
+
+──────────────────────────────────────────────────────────────────
+TARGET MEMBER
+──────────────────────────────────────────────────────────────────
+Business owners — ambitious, curious, time-constrained.
+- Don't want pressure
+- Can dip in and out
+- Some weeks: share projects
+- Other weeks: just listen + absorb
+- Want to connect with people who get it
+- Want to make money from the cutting edge, not just read about it
+
+──────────────────────────────────────────────────────────────────
+THE ONE CTA
+──────────────────────────────────────────────────────────────────
+"Yes — I'm In" / "Lock In My Spot"
+→ Web3Forms email submission
+→ Sends back: confirmation + Zoom link for next meeting + group intro
+
+──────────────────────────────────────────────────────────────────
+PALETTE
+──────────────────────────────────────────────────────────────────
+Accent: #4F46E5 (indigo-electric — Jarvis / cutting-edge / superhero)
+Secondary: #FCD34D (gold — premium, cape-of-the-superhero pop)
+Light/airy base. 3 dark beats max.
+
+──────────────────────────────────────────────────────────────────
+MEETING SCHEDULE
+──────────────────────────────────────────────────────────────────
+Biweekly. Anchor date: Saturday 2026-05-16 at 8pm UK time.
+JS auto-rolls forward to the next meeting after each one.
+ANCHOR_DATE constant in script — adjust there if needed.
+
+──────────────────────────────────────────────────────────────────
+HANDOFF NOTES (for client)
+──────────────────────────────────────────────────────────────────
+1. Replace YOUR_WEB3FORMS_ACCESS_KEY with real key
+2. Confirm the next-meeting date in ANCHOR_DATE constant
+3. Swap testimonial names/avatars if real members want to be quoted
+4. Confirm CTA copy (currently "Yes — I'm In")
+5. Decide if you want a "see who else is in" social proof section later
