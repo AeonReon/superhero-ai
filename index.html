@@ -409,6 +409,96 @@
     }
     .win-pill p { font-size: 0.92rem; color: var(--ink-soft); margin: 0; }
 
+    /* ─── Two-paths comparison ─── */
+    .two-paths-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 44px;
+      text-align: left;
+    }
+    .path-card {
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .path-card:hover { transform: translateY(-4px); }
+    .path-card--alone {
+      background: var(--cream);
+      border: 2px solid rgba(21, 21, 29, 0.18);
+      box-shadow: 0 4px 0 rgba(21, 21, 29, 0.18);
+    }
+    .path-card--together {
+      background: var(--cream);
+      border: 2px solid var(--accent);
+      box-shadow: 0 6px 0 var(--accent), 0 14px 30px rgba(79, 70, 229, 0.18);
+    }
+    .path-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.85);
+    }
+    .path-card--together .path-img { filter: none; }
+    .path-body { padding: 26px 28px 30px; }
+    .path-tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 14px;
+    }
+    .path-tag--alone {
+      background: rgba(21, 21, 29, 0.08);
+      color: var(--ink-soft);
+    }
+    .path-tag--together {
+      background: var(--accent);
+      color: white;
+    }
+    .path-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .path-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .path-list li {
+      padding: 8px 0 8px 24px;
+      position: relative;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+    .path-card--alone .path-list li::before {
+      content: '×';
+      position: absolute;
+      left: 4px;
+      top: 6px;
+      color: rgba(21, 21, 29, 0.4);
+      font-weight: 800;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+    .path-card--together .path-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 2px;
+      top: 8px;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .path-card--together .path-list li { color: var(--ink); }
+
     /* ─── Offer / logistics ─── */
     .offer-box {
       background: var(--cream);
@@ -649,6 +739,7 @@
       .offer-box { padding: 32px 24px; }
       .pre-strip { font-size: 0.82rem; }
       .offer-list .label { min-width: 100px; }
+      .two-paths-grid { grid-template-columns: 1fr; gap: 20px; }
     }
   </style>
 </head>
@@ -656,7 +747,7 @@
 
 <!-- ═══════════════ PRE-HEADLINE STRIP ═══════════════ -->
 <div class="pre-strip">
-  ⚡ <span class="accent">By invite only:</span> Next meeting in <span id="strip-countdown">—</span>. The room stays small.
+  ⚡ <span class="accent">You got the invite for a reason.</span> Next meeting in <span id="strip-countdown">—</span>. See you there.
 </div>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -664,17 +755,17 @@
   <div class="container">
     <div class="hero-inner">
       <div>
-        <span class="hero-eyebrow">For the awesome few — by invite only</span>
-        <h1>Stop reading about the cutting edge. Get inside the room <span class="em">building it.</span></h1>
-        <p class="hero-sub">A small biweekly mastermind of business owners actually building the AI tech everyone else is still tweeting about. Personal Jarvis-style assistants. Drone swarms. Custom apps and games. The stuff most people are still wishing for from the sidelines.</p>
+        <span class="hero-eyebrow">By personal invite — yes, this means you</span>
+        <h1>So. Your friend already told you. <span class="em">Here's the slightly longer version.</span></h1>
+        <p class="hero-sub">A small biweekly room of business owners building the genuinely cool stuff with AI — personal Jarvis-style assistants, drone swarms, custom apps, the works. Less reading about the future, more living in it. Mildly cheeky. Excellent company.</p>
         <div class="hero-cta-row">
-          <a href="#signup" class="btn-primary">Yes — Lock In My Spot</a>
+          <a href="#signup" class="btn-primary">Yes — I'm In</a>
         </div>
-        <div class="hero-trust">Next meeting: <strong id="event-date">—</strong> · Live on Zoom · ~90 minutes · Invite only.</div>
+        <div class="hero-trust">Next meeting: <strong id="event-date">—</strong> · Live on Zoom · ~90 minutes · Personal invite only.</div>
       </div>
       <div class="hero-image">
         <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=900&q=70" alt="Cutting-edge AI workspace — a glimpse of the kind of tech the room builds together" loading="eager" />
-        <div class="hero-image-tag">Live · Small group · Invite only</div>
+        <div class="hero-image-tag">Live · Personal invite only</div>
       </div>
     </div>
   </div>
@@ -690,89 +781,96 @@
       <div class="countdown-cell"><div class="countdown-num" id="cd-mins">—</div><div class="countdown-unit">Minutes</div></div>
       <div class="countdown-cell"><div class="countdown-num" id="cd-secs">—</div><div class="countdown-unit">Seconds</div></div>
     </div>
-    <p class="countdown-meta">Biweekly. Same time, same room. Members come and go as life allows.</p>
+    <p class="countdown-meta">Biweekly. Same time, same room. Drop in when life allows. Drop out when it doesn't. Nobody keeps score.</p>
   </div>
 </section>
 
-<!-- ═══════════════ TESTIMONIALS BLOCK 1 ═══════════════ -->
+<!-- ═══════════════ WELCOME — YES YOU, WE THINK YOU'RE AWESOME ═══════════════ -->
 <section class="section section-cream section-text-center">
-  <div class="container">
-    <span class="section-eyebrow">What members say</span>
-    <h2 class="fade-up">A small group of people who get it. That's the whole product.</h2>
-    <div class="test-grid">
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"I'd been bookmarking AI threads for two years and building approximately none of them. Three meetings in I had a Jarvis running in my house. The room is the unlock."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="Marc D." />
-          <div>
-            <div class="test-name">Marc D.</div>
-            <div class="test-role">Founder · E-commerce</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"I'm not a developer. I run a busy business. I drop in twice a month, listen, ask questions, leave with three new ideas I can actually use. It's the most efficient hour of my fortnight."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Hannah W." />
-          <div>
-            <div class="test-name">Hannah W.</div>
-            <div class="test-role">Owner · Retail Group</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"This stopped being a 'mastermind' and started being the most fun group of people I hang out with online. We just happen to be building the future together. No pressure, all upside."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Sam R." />
-          <div>
-            <div class="test-name">Sam R.</div>
-            <div class="test-role">Agency Owner</div>
-          </div>
-        </div>
-      </div>
+  <div class="container-narrow">
+    <span class="section-eyebrow">First things first</span>
+    <h2 class="fade-up">Yes, you. We genuinely think you're awesome.</h2>
+    <div class="body-text" style="margin-top: 26px; text-align: left; font-size: 1.08rem;">
+      <p>Quick clarification before anything else.</p>
+      <p>This isn't a "community of 50,000 entrepreneurs" you got blasted by from a stranger. This is a small group of people. Your name came up because someone <strong>in</strong> the room — your actual friend — said <em>"that one would fit beautifully here."</em></p>
+      <p>The room agreed. So you got the invite.</p>
+      <p>You're the kind of person who's been at the front of most things that mattered — probably saw the property thing coming, the e-commerce thing coming, the crypto thing coming. You're not the person who shows up two years late asking what everyone's talking about. <strong>You're the one who emails the others.</strong></p>
+      <p>So this is that email. The next big shift is in motion. You're being looped in early, with the right people, before it gets crowded.</p>
+      <p>Cool? Cool. Here's the rest of the page in case you want the gist.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════ THE PROBLEM ═══════════════ -->
-<section class="section section-warm">
+<!-- ═══════════════ AI SUPERHERO BENEFITS ═══════════════ -->
+<section class="section section-warm-deep section-text-center">
   <div class="container">
-    <div class="two-col">
-      <div class="col-text body-text">
-        <span class="section-eyebrow">The real problem</span>
-        <h2>You've been wishing for this from fantasy land.</h2>
-        <p>You read the threads. You bookmark the demos. You watch the YouTube guy wire up his house and you think <em>"god I wish I could do that."</em></p>
-        <p>And then you go back to the spreadsheet, or the inbox, or the next meeting — and the wish stays a wish.</p>
-        <p>You used to think it would take selling your company for millions to afford that life. The personal AI. The drone swarm watching the property. The custom apps without a dev team. The smart home that actually does what you say.</p>
-        <p>Here's the secret most people haven't caught up to: <strong>that price tag dropped through the floor.</strong></p>
-        <p>The tools are here. The cost is a fraction of what it used to be. The only thing you're missing is <strong>the room of people who already know how.</strong></p>
-        <p>Because grinding it out alone takes months. Scrolling X for the best thread takes weeks of your evenings. And neither of those is as fun as just being in the room with people who already cracked it.</p>
+    <span class="section-eyebrow">The fun part</span>
+    <h2 class="fade-up">Become the AI superhero version of you.</h2>
+    <p class="section-lede fade-up">All the stuff that looked like a Marvel movie ten years ago? It quietly became real. You don't need to sell a company to afford it anymore. You just need access to the people who already wired theirs up.</p>
+    <div class="outcomes-grid">
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?w=700&q=70" alt="Smart home and personal AI assistant" loading="lazy" />
+        <div class="outcome-body">
+          <h3>Your own personal Jarvis</h3>
+          <p>A custom AI that actually knows your stuff. Wired into your home, your car, your phone, your business. Voice control everything. Total customisation. Yours forever, runs on your hardware.</p>
+        </div>
       </div>
-      <div class="col-img">
-        <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=70" alt="Person scrolling AI content alone — the slow, lonely path" loading="lazy" />
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=70" alt="Drone in flight — property surveillance" loading="lazy" />
+        <div class="outcome-body">
+          <h3>Drone swarms watching the property</h3>
+          <p>AI-coordinated patrols, smart property monitoring, autonomous surveillance. The kind of setup that used to need a security firm on retainer. Now it's a weekend project.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=70" alt="Custom AI agents handling business tasks" loading="lazy" />
+        <div class="outcome-body">
+          <h3>The boring half of your business — gone</h3>
+          <p>Custom AI agents handling email triage, content production, customer-service patterns, the report writing, the lot. Members report 5–15 hours a week back. Every week.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=70" alt="Custom apps and games built without a dev team" loading="lazy" />
+        <div class="outcome-body">
+          <h3>Apps and games — no dev team needed</h3>
+          <p>Internal tools, family apps, learning games for the kids, products you've had in your head for years. Built by you, in days, for free or close to it. The technical bar dropped through the floor.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=700&q=70" alt="Replacing SaaS with self-built tools" loading="lazy" />
+        <div class="outcome-body">
+          <h3>The SaaS bills get cancelled</h3>
+          <p>File transfer, family sharing, internal comms, automation, the lot — built and owned by you, running on your own kit. The monthly subscriptions just quietly stop.</p>
+        </div>
+      </div>
+      <div class="outcome-card fade-up">
+        <img class="outcome-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=70" alt="The next thing — staying ahead" loading="lazy" />
+        <div class="outcome-body">
+          <h3>Whatever drops next week</h3>
+          <p>Genuine truth: the world's top AI experts are about <strong>two weeks ahead of you</strong>, not two years. The pace reset everything. Being in the room means someone here will have used it before you've heard of it.</p>
+        </div>
       </div>
     </div>
+    <p style="margin-top: 36px; max-width: 640px; margin-left: auto; margin-right: auto; font-size: 1.05rem; color: var(--ink-soft);">Some you'll care about. Some you won't. The point is: this isn't <em>just</em> a "make your business better" thing. It's a "your daily life starts looking meaningfully cooler" thing.</p>
   </div>
 </section>
 
-<!-- ═══════════════ THE MECHANISM ═══════════════ -->
+<!-- ═══════════════ HOW THE ROOM ACTUALLY WORKS ═══════════════ -->
 <section class="section section-cream">
   <div class="container">
     <div class="two-col reverse">
       <div class="col-text body-text">
-        <span class="section-eyebrow">Why this works</span>
-        <h2>One small room. The right people. Biweekly.</h2>
-        <p>This isn't a course. There's no curriculum, no homework, no "intro module."</p>
-        <p>It's a group of business owners who are genuinely into this stuff, getting on Zoom every two weeks, showing what they've been building, swapping the techniques that just landed, and helping each other skip months of solo grinding.</p>
-        <p>Some weeks you'll come ready with something exciting to show. Other weeks you'll come tired, drop in for the footnotes, and leave with three ideas you can use on Monday. <strong>Both are completely fine.</strong></p>
-        <p>The point isn't pressure. The point is being <strong>around the right people often enough</strong> that the cutting edge stops being something you read about and starts being something you live in.</p>
-        <p>And honestly? It's just <strong>fun.</strong> The single best part of this whole thing is hanging out with other ambitious, curious, slightly-nerdy people who think building the future is the most exciting thing in the world. Because it is.</p>
+        <span class="section-eyebrow">How the room actually works</span>
+        <h2>Nobody's the guru. Everyone's the guru. We just compare notes.</h2>
+        <p>There is no expert in this room. There can't be — the pace is too fast.</p>
+        <p>The actual world experts on AI right now? Two weeks ahead of you, not two years. <strong>That's the genuine state of play.</strong> The whole game has reset. Anyone telling you they've got the master plan is selling you something.</p>
+        <p>What works instead is a small group of curious people running their own experiments and pooling the results. Someone tries the new model on their workflow this week. Someone else cracked the property-surveillance stack last fortnight. Someone got the local-AI-on-your-Mac thing running the week before.</p>
+        <p>We get on Zoom. We swap what we found. <strong>One person's three weekends of grinding becomes everyone else's five-minute conversation.</strong> Then we go back to our lives, three months ahead of where we'd otherwise be.</p>
+        <p>The biggest single problem with going it alone isn't effort. It's that <strong>you don't know what you don't know.</strong> The room fixes that — quietly, in passing, on a Tuesday.</p>
+        <p>Honestly? The biggest surprise about this group is just how <strong>fun</strong> it is. Smart people nerding out about building the future together. A bit cheeky. No ego. Excellent company.</p>
       </div>
       <div class="col-img">
-        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70" alt="Group collaboration — small focused team" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70" alt="Small group sharing what they've built" loading="lazy" />
       </div>
     </div>
   </div>
@@ -785,175 +883,78 @@
     <h2>While everyone else is still digging potatoes by hand.</h2>
     <div class="body-text" style="margin-top: 22px; text-align: left;">
       <p>Imagine a man who's spent his whole life digging potatoes by hand.</p>
-      <p>Down the road, the tractors arrived. Then the combine harvesters. Then the GPS-guided fully automated rigs that do in twenty minutes what used to take him a week.</p>
+      <p>Down the road, the tractors arrived. Then the combine harvesters. Then the GPS-guided fully autonomous rigs that do in twenty minutes what used to take him a week.</p>
       <p>He shrugs. <em>"Not for me. I'll stick with the spade."</em></p>
       <p>The thing is — <strong>he's not making a living anymore.</strong> The neighbours with the harvesters are running circles around him. He's exhausted. His back hurts. And the potatoes are the same potatoes.</p>
       <p>That's where most business owners are with AI right now. Spade in hand. Watching the harvesters roll past. Thinking <em>"I'll catch up eventually."</em></p>
       <p>You know who catches up? <strong>The people who get in a room with the harvester drivers.</strong> Not the people reading newsletters about harvesters.</p>
-      <p>That's what this room is. A small one. Of harvester drivers. Comparing notes.</p>
+      <p>That's what this room is. A small one. Of harvester drivers. Comparing notes. With excellent banter.</p>
     </div>
     <div style="margin-top: 38px;">
-      <a href="#signup" class="btn-primary">Yes — Lock In My Spot</a>
+      <a href="#signup" class="btn-primary">Yes — I'm In</a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════ OUTCOMES — WHAT YOU'LL ACTUALLY GET ═══════════════ -->
+
+<!-- ═══════════════ TWO PATHS — HUNTING ALONE VS WITH THE ROOM ═══════════════ -->
 <section class="section section-cream section-text-center">
   <div class="container">
-    <span class="section-eyebrow">What being in the room actually does</span>
-    <h2 class="fade-up">Months of solo grinding, compressed into a Tuesday evening.</h2>
-    <p class="section-lede fade-up">No fluff outcomes. Here's the actual pattern members report after a few months.</p>
-    <div class="outcomes-grid">
-      <div class="outcome-card fade-up">
-        <img class="outcome-img" src="https://images.unsplash.com/photo-1558002038-1055907df827?w=700&q=70" alt="Modern smart workspace — the cutting edge in your daily life" loading="lazy" />
-        <div class="outcome-body">
-          <h3>You stop being the spectator</h3>
-          <p>You go from saving threads to actually building things. Within weeks you've shipped the first thing you've been "going to build" for two years.</p>
+    <span class="section-eyebrow">The choice, basically</span>
+    <h2 class="fade-up">Hunting alone, or hunting with the room.</h2>
+    <p class="section-lede fade-up">Same fortnight. Same calendar. Wildly different outcomes.</p>
+    <div class="two-paths-grid">
+      <div class="path-card path-card--alone fade-up">
+        <img class="path-img" src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=700&q=70" alt="Hunting AI tools alone — late nights, long threads, slow progress" loading="lazy" />
+        <div class="path-body">
+          <div class="path-tag path-tag--alone">Hunting alone</div>
+          <h3>Three weekends per tool. No idea what you're missing.</h3>
+          <ul class="path-list">
+            <li>You burn three weekends figuring out a tool — only to discover the <em>actually</em> good workflow was the one you skipped past on day one.</li>
+            <li>Decisions made on hope and the loudest YouTube guy.</li>
+            <li>You don't know what you don't know. So most of the wins quietly pass you by.</li>
+            <li>Three months in, you're roughly where someone in the room got in a Tuesday evening.</li>
+            <li>And you did it all on your own, in the dark, surrounded by Reddit. Cool.</li>
+          </ul>
         </div>
       </div>
-      <div class="outcome-card fade-up">
-        <img class="outcome-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=70" alt="Collaborative tech setup — shortcuts from real builders" loading="lazy" />
-        <div class="outcome-body">
-          <h3>You skip months of solo grinding</h3>
-          <p>The thing someone in the room cracked last month — that's an hour of conversation, not three weekends of YouTube. The room is the shortcut.</p>
-        </div>
-      </div>
-      <div class="outcome-card fade-up">
-        <img class="outcome-img" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=70" alt="Group of people enjoying themselves — the social upside" loading="lazy" />
-        <div class="outcome-body">
-          <h3>You find your people</h3>
-          <p>Most business owners don't have a single friend who gets why this stuff is exciting. After a few meetings, you'll have ten.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ WHAT WE BUILD — PROJECT PILLS ═══════════════ -->
-<section class="section section-warm section-text-center">
-  <div class="container">
-    <span class="section-eyebrow">Some of what's already in the room</span>
-    <h2 class="fade-up">Real projects. Real members. Stuff most people still think is sci-fi.</h2>
-    <p class="section-lede fade-up">Not theory. Things people in this room are actually running today — and showing the others how.</p>
-    <div class="wins-grid">
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?w=600&q=70" alt="Smart home AI control" loading="lazy" />
-        <div class="win-body">
-          <h4>Your own personal Jarvis</h4>
-          <p>Custom AI wired into your house and car. Voice control, automation, total customisation. Built on Claude, runs locally, yours forever.</p>
-        </div>
-      </div>
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=70" alt="Drone in flight" loading="lazy" />
-        <div class="win-body">
-          <h4>Drone swarms + property surveillance</h4>
-          <p>Multi-drone coordination, AI-guided patrols, smart property monitoring. The kind of setup that used to need a security firm.</p>
-        </div>
-      </div>
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&q=70" alt="Custom app on phone" loading="lazy" />
-        <div class="win-body">
-          <h4>Custom apps + games — no dev team</h4>
-          <p>Apps for your business or family, learning games for the kids, internal tools that used to require a developer. Built by you in days.</p>
-        </div>
-      </div>
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=600&q=70" alt="File transfer interface" loading="lazy" />
-        <div class="win-body">
-          <h4>Replace the SaaS stack you're paying for</h4>
-          <p>File transfer, family sharing, internal comms, automation — built and owned by you, running on your own hardware. Subscriptions cancelled.</p>
-        </div>
-      </div>
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&q=70" alt="Streaming setup" loading="lazy" />
-        <div class="win-body">
-          <h4>Streaming + content automation</h4>
-          <p>AI-assisted streams, automated highlight reels, content pipelines that run themselves. Output goes up. Time goes down.</p>
-        </div>
-      </div>
-      <div class="win-pill fade-up">
-        <img class="win-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=70" alt="Cutting edge tools" loading="lazy" />
-        <div class="win-body">
-          <h4>Whatever drops next week</h4>
-          <p>The pace of new releases is the actual reason this room exists. Someone in the group will have used it before you've heard of it.</p>
+      <div class="path-card path-card--together fade-up">
+        <img class="path-img" src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=700&q=70" alt="Hunting with the room — small group sharing what they've found" loading="lazy" />
+        <div class="path-body">
+          <div class="path-tag path-tag--together">Hunting with the room</div>
+          <h3>One conversation. Months saved. Excellent banter.</h3>
+          <ul class="path-list">
+            <li>Someone already tested the tool. They tell you in five minutes — including which bits to skip.</li>
+            <li>The actually good workflow gets surfaced by whoever cracked it last fortnight.</li>
+            <li>The room shows you what you didn't know you didn't know. That's the actual unlock.</li>
+            <li>Three meetings in, you're three months ahead of the alone version of you.</li>
+            <li>Plus: you're hanging out with people you genuinely enjoy. Which is the whole point.</li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════ TESTIMONIALS BLOCK 2 ═══════════════ -->
-<section class="section section-cream">
-  <div class="container">
-    <span class="section-eyebrow section-text-center" style="text-align:center; display:block;">A few more from inside the room</span>
-    <h2 class="fade-up" style="text-align:center;">"It's the most fun thing in my calendar."</h2>
-    <div class="test-grid">
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"My business doesn't run on AI. But I save 5–10 hours a week now thanks to stuff I picked up in this group. The ROI on a 90-minute meeting every fortnight is genuinely absurd."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&q=80" alt="Tom W." />
-          <div>
-            <div class="test-name">Tom W.</div>
-            <div class="test-role">Construction Owner</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"I missed three meetings in a row when work got mad. Came back, nobody made it weird, picked up exactly where I left off. The low-pressure thing isn't marketing — it's real."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&q=80" alt="Priya K." />
-          <div>
-            <div class="test-name">Priya K.</div>
-            <div class="test-role">Agency Founder</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"Genuinely the only place I've found where smart business people talk about drone swarms and custom AI without it feeling cringe. It's just guys who think this is fun."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" alt="Daniel R." />
-          <div>
-            <div class="test-name">Daniel R.</div>
-            <div class="test-role">SaaS Founder</div>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"I joined assuming I'd be the least technical person. I'm not. Half the room are normal business owners who just got curious. It's friendly, not gatekept."</p>
-        <div class="test-author">
-          <img class="test-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Anna L." />
-          <div>
-            <div class="test-name">Anna L.</div>
-            <div class="test-role">Retail Owner</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <p style="margin-top: 38px; max-width: 640px; margin-left: auto; margin-right: auto; font-size: 1.08rem; color: var(--ink); font-weight: 600;">Same time on the calendar. Wildly different outcomes.</p>
+    <div style="margin-top: 30px;"><a href="#signup" class="btn-primary">Yes — I'm In</a></div>
   </div>
 </section>
 
 <!-- ═══════════════ THE OFFER ═══════════════ -->
 <section class="section section-warm-deep section-text-center">
   <div class="container-narrow">
-    <span class="section-eyebrow">Here's exactly what you're saying yes to</span>
-    <h2 class="fade-up">A biweekly Zoom. A small room. People you'll actually want to hang out with.</h2>
+    <span class="section-eyebrow">The whole deal, in one box</span>
+    <h2 class="fade-up">A biweekly Zoom. A small room. People you'll genuinely enjoy.</h2>
     <div class="offer-box fade-up">
       <ul class="offer-list">
         <li><span class="label">When:</span><span>Biweekly · Next meeting <strong id="offer-date">—</strong> at 8pm UK time</span></li>
-        <li><span class="label">Where:</span><span>Zoom (link sent to you the day before)</span></li>
-        <li><span class="label">How long:</span><span>~90 minutes — show up, share, listen, leave</span></li>
-        <li><span class="label">Format:</span><span>Loose. Members share what they've built. Q&amp;A. Show-and-tell. Real talk.</span></li>
-        <li><span class="label">Time commitment:</span><span>As little as you like. Some weeks you share, some you just listen.</span></li>
-        <li><span class="label">Who it's for:</span><span>Awesome business owners who want to stay at the cutting edge — and have fun doing it</span></li>
-        <li><span class="label">Cost:</span><span>No fee — invite only. The price of admission is being someone the room wants in it.</span></li>
+        <li><span class="label">Where:</span><span>Zoom (link sent the day before)</span></li>
+        <li><span class="label">How long:</span><span>~90 minutes — turn up, share, listen, leave</span></li>
+        <li><span class="label">Format:</span><span>Loose. Show-and-tell. Q&amp;A. Real banter.</span></li>
+        <li><span class="label">Time:</span><span>As little as you like. Some weeks you share. Some you just listen. Skip when life's mad — nobody minds.</span></li>
+        <li><span class="label">Who it's for:</span><span>Curious, ambitious people who'd rather build the future than scroll about it</span></li>
+        <li><span class="label">Cost:</span><span>No fee. Personal invite only. The price of admission was someone in the room saying "they belong here" — which already happened.</span></li>
       </ul>
-      <p style="font-size: 1.05rem; color: var(--ink-soft); margin: 0;">No upsell. No "module 1." No hard pitch. Just a small room of good people, comparing notes on the most exciting time in tech that's ever happened.</p>
-      <div style="margin-top: 28px; text-align: center;"><a href="#signup" class="btn-primary large">Yes — Lock In My Spot</a></div>
+      <p style="font-size: 1.05rem; color: var(--ink-soft); margin: 0;">No upsell. No "module 1." No homework. Just a small room of good people, comparing notes on the most exciting time in tech that's ever happened. <strong>And honestly? It's a net time saver — what you pick up in 90 minutes saves you fortnights of solo grinding.</strong></p>
+      <div style="margin-top: 28px; text-align: center;"><a href="#signup" class="btn-primary large">Yes — I'm In</a></div>
     </div>
   </div>
 </section>
@@ -961,16 +962,16 @@
 <!-- ═══════════════ URGENCY BLOCK (DARK) ═══════════════ -->
 <section class="section section-dark urgency-inner">
   <div class="container">
-    <div class="urgency-stat">The room stays small on purpose</div>
-    <h2 class="fade-up">If you've been invited, this is your window.</h2>
-    <p class="section-lede fade-up" style="margin-left:auto; margin-right:auto;">We don't run a public list. The room only grows when one of us vouches for someone. If your name is on the invite, that already happened — all that's left is for you to say yes.</p>
+    <div class="urgency-stat">Founding cohort · Brand new</div>
+    <h2 class="fade-up">Your name's on the list. The Zoom link's ready. Yes or no?</h2>
+    <p class="section-lede fade-up" style="margin-left:auto; margin-right:auto;">This is the first cohort — meaning whoever shows up early gets to set the dynamic. The friends who said yes first become the people the room is built around. Nice place to be standing.</p>
     <div class="countdown-grid" id="countdown-2" style="margin-top: 32px;">
       <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-days" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Days</div></div>
       <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-hours" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Hours</div></div>
       <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-mins" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Minutes</div></div>
       <div class="countdown-cell" style="background: var(--dark-alt); border-color: var(--gold); color: var(--dark-text);"><div class="countdown-num" id="cd2-secs" style="color: var(--gold);">—</div><div class="countdown-unit" style="color: rgba(255,251,245,0.6);">Seconds</div></div>
     </div>
-    <div style="margin-top: 38px;"><a href="#signup" class="btn-primary large">Yes — Lock In My Spot</a></div>
+    <div style="margin-top: 38px;"><a href="#signup" class="btn-primary large">Yes — I'm In</a></div>
   </div>
 </section>
 
@@ -978,76 +979,80 @@
 <section class="section section-cream section-text-center">
   <div class="container">
     <span class="section-eyebrow">Honest questions, honest answers</span>
-    <h2 class="fade-up">Things busy people ask before they say yes.</h2>
+    <h2 class="fade-up">Things people ask before they say yes.</h2>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">I run a business — do I need to invest a lot of time into this?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">No. The whole format is built for time-poor business owners. It's 90 minutes every two weeks. There's no homework, no pre-reads, no follow-up tasks. If you only have time to lurk in the call, lurk. If a busy fortnight means you skip — skip. Come back next time. The room doesn't punish you for living a real life.</div></div>
+        <button class="faq-q" aria-expanded="false">I'm busy. Is this another thing on my list?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Honestly, no — it's the opposite. 90 minutes every two weeks. No homework, no pre-reads, no follow-up tasks. Skip a meeting when life's mad — nobody minds, everyone gets it. The genuine pitch is that <strong>this is a net time saver</strong>: what you pick up in one 90-minute call saves you fortnights of hunting on YouTube and grinding alone. Rather than sitting on YouTube guessing, why not turn up and learn from people who already cracked the thing?</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What if I don't have anything to share that week?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Completely normal. Most members come to most meetings as low-key participants. You sit, you listen, you absorb the footnotes, you ask a question if you have one, and you leave with three new ideas. The "share something" weeks are when you've got something cool — they're not a tax on attendance.</div></div>
+        <button class="faq-q" aria-expanded="false">Is anyone in here positioned as the expert?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. There's no guru in this room — there can't be. AI is moving so fast that the actual world experts are about <strong>two weeks ahead of you, not two years.</strong> The whole game has reset. The room works because everyone runs their own experiments and pools the results — which is genuinely more useful than reading any one person's blog. Anyone telling you they've got the master plan right now is selling you something.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What if I don't have anything cool to share that week?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Completely normal. Most members come to most meetings as low-key participants. You sit, you listen, you absorb the footnotes, ask a question if you have one, leave with three new ideas. The "share something" weeks are when you've got something cool — not a tax on attendance.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">How technical do I need to be?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Not very. About half the room are normal business owners who got curious about what's possible — not engineers. The whole point of AI right now is that the technical bar dropped through the floor. If you can use a phone and you're willing to play, you're already there. Members will happily walk you through anything you want to try.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Not very. About half the room are normal business owners who got curious — not engineers. The technical bar dropped through the floor. If you can use a phone and you're up for playing, you're already in. Members will happily walk you through anything you want to try.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Is there a fee?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">No fee. But this isn't a "free mastermind" you stumbled across on Facebook either. It's invite only. The price of admission is being someone the existing room wants to spend two evenings a month with. If you've been invited, that's already been decided.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">No fee. But this also isn't a "free mastermind" you stumbled across on Facebook. It's <strong>personal invite only.</strong> The price of admission was someone in the room saying "they belong here" — which, since you're reading this, has already happened. Different thing entirely.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Why is it invite only?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Because the room is the product. The minute it becomes a public sign-up, the average drops, the conversation gets shallower, and the people who actually built cool stuff stop showing up. Keeping it small and vetted is how it stays useful — and fun. We've all been in big "communities" where the signal-to-noise ratio quietly killed the thing. Not this one.</div></div>
+        <button class="faq-q" aria-expanded="false">Why is it personal invite only?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Because the room is the whole product. The minute it becomes a public sign-up, the average drops, the conversation gets shallower, the people building cool stuff stop showing up. We've all been in "communities" where the signal-to-noise ratio quietly killed the magic. We're not letting that happen here. Small, vetted, fun. That's the rule.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What actually happens in the 90 minutes?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Loose structure. Whoever's got something cool to show — shows it. Whoever's got a question — asks it. We swap what's working, what's not, what just dropped this fortnight, what we're trying next. It's somewhere between a show-and-tell, a Q&amp;A, and a group of friends nerding out. The vibe is the point — not a slide deck.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Loose structure. Whoever's got something cool to show — shows it. Whoever's stuck on something — asks. We swap what's working, what's not, what just dropped this fortnight, what we're trying next. It's somewhere between a show-and-tell, a Q&amp;A, and a group of friends nerding out together. The vibe is the point — not a slide deck.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Are meetings recorded?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">If members want a recording or notes for that session, we'll arrange it. Often the best stuff is off-the-record by design — people share things they wouldn't put on a public YouTube. We default to "in the room, stays in the room" unless we agree otherwise.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">If members want a recording or notes for the session, we'll arrange it. Often the best stuff is off-the-record by design — people share things they wouldn't put on a public YouTube. We default to "in the room, stays in the room" unless we agree otherwise.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Can I bring a friend who'd be perfect for this?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Yes, please. The room grows the way the room was built — through people who already get it vouching for the next one. If someone you know belongs in this group, tell us. The bar is "would the existing room enjoy spending two evenings a month with this person." That's the whole filter.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes please. The room grows the way the room was built — through people already in it vouching for the next one. If someone you know belongs here, tell us. The bar is "would the existing room genuinely want to spend two evenings a month with this person." That's the whole filter.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What if I miss a few meetings in a row?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Nothing happens. Come back when you can. The members who get the most out of this are the ones who think of it as a low-pressure background drumbeat in their year — not a thing they're trying to be perfect about. Show up when life allows, drop in when something cool drops, and otherwise just live your life.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Nothing happens. Come back when you can. The members getting the most out of this think of it as a low-pressure background drumbeat in their year — not a thing they're trying to be perfect about. Show up when life allows, drop in when something cool drops, otherwise just live.</div></div>
       </div>
     </div>
-    <div style="margin-top: 44px;"><a href="#signup" class="btn-primary">Yes — Lock In My Spot</a></div>
+    <div style="margin-top: 44px;"><a href="#signup" class="btn-primary">Yes — I'm In</a></div>
   </div>
 </section>
 
 <!-- ═══════════════ FINAL CTA + SIGNUP FORM (DARK) ═══════════════ -->
 <section class="section section-dark final-cta" id="signup">
   <div class="container">
-    <span class="section-eyebrow">One last thing</span>
-    <h2 class="fade-up">The next two years of tech are going to be the wildest in living memory. Spend them with the right people.</h2>
-    <p class="lede fade-up">Drop your details. We'll send the Zoom link for the next meeting and a quick intro to the room. That's it.</p>
+    <span class="section-eyebrow">The whole page, in one sentence</span>
+    <h2 class="fade-up">Your friend already vouched for you. The room said yes. Pick a future.</h2>
+    <p class="lede fade-up">Drop your name. We'll send the Zoom link for the next meeting. See you in the room.</p>
 
     <form class="signup-form" id="signupForm" autocomplete="on">
-      <h3>Confirm your spot</h3>
+      <h3>Make it official</h3>
       <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
       <input type="hidden" name="subject" value="Superhero AI — New Member Confirmation" />
       <input type="hidden" name="redirect" value="" />
       <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
       <div class="form-field">
         <label for="signup-name">First name</label>
-        <input type="text" id="signup-name" name="name" required autocomplete="given-name" placeholder="Sarah" />
+        <input type="text" id="signup-name" name="name" required autocomplete="given-name" placeholder="Your name" />
       </div>
       <div class="form-field">
         <label for="signup-email">Email</label>
         <input type="email" id="signup-email" name="email" required autocomplete="email" placeholder="you@example.com" />
       </div>
       <div class="form-field">
-        <label for="signup-invitedby">Who invited you? (optional)</label>
-        <input type="text" id="signup-invitedby" name="invited_by" autocomplete="off" placeholder="Name of the member who invited you" />
+        <label for="signup-invitedby">Which friend invited you?</label>
+        <input type="text" id="signup-invitedby" name="invited_by" autocomplete="off" placeholder="Their first name will do" />
       </div>
-      <button type="submit" class="form-submit" id="formSubmit">Yes — Lock In My Spot</button>
-      <p class="form-fine">No fee · Invite only · We'll only email about the mastermind.</p>
+      <button type="submit" class="form-submit" id="formSubmit">Yes — I'm In</button>
+      <p class="form-fine">No fee · Personal invite only · We'll only email about the mastermind.</p>
     </form>
   </div>
 </section>
