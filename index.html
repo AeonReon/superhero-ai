@@ -687,20 +687,94 @@
     .form-submit.success { background: var(--green); border-color: #1AAF54; box-shadow: 0 4px 0 #1AAF54; }
     .form-success-msg {
       text-align: center;
-      padding: 16px 12px;
+      padding: 8px 4px 4px;
       font-size: 1rem;
       font-weight: 600;
       color: var(--ink);
+      animation: success-fade-in 0.5s ease-out;
+    }
+    @keyframes success-fade-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .form-success-msg .check {
       display: inline-block;
-      width: 56px; height: 56px;
+      width: 64px; height: 64px;
       background: var(--green);
       color: white;
       border-radius: 50%;
-      line-height: 56px;
-      font-size: 1.8rem;
-      margin-bottom: 14px;
+      line-height: 64px;
+      font-size: 2rem;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 0 #1AAF54, 0 12px 24px rgba(37, 211, 102, 0.25);
+      animation: success-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes success-pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    .form-success-msg h3 {
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-size: 1.8rem !important;
+      font-weight: 800 !important;
+      margin: 0 0 6px !important;
+      color: var(--ink) !important;
+      line-height: 1.15;
+    }
+    .form-success-msg .success-lead {
+      font-size: 1rem;
+      color: var(--ink);
+      font-weight: 600;
+      margin: 6px 0 22px;
+    }
+    .form-success-msg .success-steps {
+      text-align: left;
+      list-style: none;
+      counter-reset: success-step;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+    .form-success-msg .success-steps li {
+      counter-increment: success-step;
+      position: relative;
+      padding: 12px 0 12px 48px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-success-msg .success-steps li:last-child {
+      border-bottom: none;
+    }
+    .form-success-msg .success-steps li::before {
+      content: counter(success-step);
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 800;
+      font-size: 1rem;
+      line-height: 32px;
+      text-align: center;
+    }
+    .form-success-msg .success-steps li strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .form-success-msg .success-note {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+      margin: 0;
+      font-style: italic;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
     }
     .form-fine {
       text-align: center;
@@ -1024,7 +1098,7 @@
 
     <form class="signup-form" id="signupForm" autocomplete="on">
       <h3>Make it official</h3>
-      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+      <input type="hidden" name="access_key" value="a70fd9f7-165c-4633-878e-cc6a97767c23" />
       <input type="hidden" name="subject" value="Superhero AI — New Member Confirmation" />
       <input type="hidden" name="redirect" value="" />
       <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
@@ -1144,7 +1218,17 @@
           submit.textContent = 'Sent!';
           submit.classList.add('success');
           setTimeout(() => {
-            form.innerHTML = '<div class="form-success-msg"><span class="check">✓</span><h3>You\'re in.</h3><p style="margin-top:10px; color: var(--ink-soft);">We\'ll email the Zoom link the day before the next meeting. See you in the room.</p></div>';
+            form.innerHTML = `<div class="form-success-msg">
+              <span class="check">✓</span>
+              <h3>You're in.</h3>
+              <p class="success-lead">Welcome to the room. Here's what happens next:</p>
+              <ol class="success-steps">
+                <li>Check your <strong>inbox in the next few minutes</strong> for a quick confirmation from us.</li>
+                <li>The <strong>day before the next meeting</strong>, you'll get the Zoom link by email.</li>
+                <li><strong>Show up, hang out, leave with three new ideas.</strong> That's the whole drill.</li>
+              </ol>
+              <p class="success-note">No homework. No pre-reads. Just turn up and play. See you in the room.</p>
+            </div>`;
           }, 800);
         } else {
           submit.textContent = 'Something went wrong — try again';
