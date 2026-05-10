@@ -1199,7 +1199,7 @@
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
   }
 
-  // ─── Sign-up form (Web3Forms AJAX) ───
+  // ─── Sign-up form (self-hosted mastermind-reminders endpoint) ───
   const form = document.getElementById('signupForm');
   if (form) {
     form.addEventListener('submit', async (e) => {
@@ -1209,10 +1209,11 @@
       submit.disabled = true;
       try {
         const formData = new FormData(form);
-        const res = await fetch('https://api.web3forms.com/submit', {
+        const payload = Object.fromEntries(formData);
+        const res = await fetch('https://superhero.aiprofits.cc/api/signup', {
           method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         });
         if (res.ok) {
           submit.textContent = 'Sent!';
