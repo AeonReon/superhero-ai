@@ -1246,8 +1246,37 @@
   }
 
   async function detectMode() {
+    // Step 1: check site config — is invite required, or is the page open?
+    let requireInvite = false;
+    try {
+      const cfgRes = await fetch(`${API_BASE}/api/config`, { cache: 'no-store' });
+      const cfg = await cfgRes.json();
+      requireInvite = !!cfg.requireInvite;
+    } catch (err) {
+      // If config can't be reached, default to open (safer for visitors)
+      requireInvite = false;
+    }
+
     const params = new URLSearchParams(window.location.search);
     const token = params.get('i');
+
+    // Open mode: just show the signup form, prefill if a token happens to be present
+    if (!requireInvite) {
+      if (token) {
+        try {
+          const res = await fetch(`${API_BASE}/api/check-invite/${encodeURIComponent(token)}`, { cache: 'no-store' });
+          const data = await res.json();
+          if (data.valid) {
+            document.getElementById('signup-token').value = token;
+            if (data.recipient_name) document.getElementById('signup-name').value = data.recipient_name;
+          }
+        } catch {}
+      }
+      showMode('invite');
+      return;
+    }
+
+    // Gated mode: invite required
     if (!token) { showMode('apply'); return; }
 
     showMode('loading');
@@ -1264,11 +1293,9 @@
         }
         showMode('invite');
       } else {
-        // Invalid / used / revoked — silently fall back to apply mode
         showMode('apply');
       }
     } catch (err) {
-      // Network error — be forgiving, show apply
       showMode('apply');
     }
   }
