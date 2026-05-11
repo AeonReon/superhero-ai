@@ -1093,30 +1093,67 @@
 <section class="section section-dark final-cta" id="signup">
   <div class="container">
     <span class="section-eyebrow">The whole page, in one sentence</span>
-    <h2 class="fade-up">Your friend already vouched for you. The room said yes. Pick a future.</h2>
-    <p class="lede fade-up">Drop your name. We'll send the Zoom link for the next meeting. See you in the room.</p>
 
-    <form class="signup-form" id="signupForm" autocomplete="on">
-      <h3>Make it official</h3>
-      <input type="hidden" name="access_key" value="a70fd9f7-165c-4633-878e-cc6a97767c23" />
-      <input type="hidden" name="subject" value="Superhero AI — New Member Confirmation" />
-      <input type="hidden" name="redirect" value="" />
-      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
-      <div class="form-field">
-        <label for="signup-name">First name</label>
-        <input type="text" id="signup-name" name="name" required autocomplete="given-name" placeholder="Your name" />
-      </div>
-      <div class="form-field">
-        <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" name="email" required autocomplete="email" placeholder="you@example.com" />
-      </div>
-      <div class="form-field">
-        <label for="signup-invitedby">Which friend invited you?</label>
-        <input type="text" id="signup-invitedby" name="invited_by" autocomplete="off" placeholder="Their first name will do" />
-      </div>
-      <button type="submit" class="form-submit" id="formSubmit">Yes — I'm In</button>
-      <p class="form-fine">No fee · Personal invite only · We'll only email about the mastermind.</p>
-    </form>
+    <!-- Mode A: invite confirm — shown when ?i=valid-token in the URL -->
+    <div id="invite-mode" style="display:none;">
+      <h2 class="fade-up" id="invite-headline">Your friend already vouched for you. The room said yes. Pick a future.</h2>
+      <p class="lede fade-up">Drop your name. We'll send the link for the next meeting. See you in the room.</p>
+
+      <form class="signup-form" id="signupForm" autocomplete="on">
+        <h3>Make it official</h3>
+        <input type="hidden" id="signup-token" name="token" value="" />
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+        <div class="form-field">
+          <label for="signup-name">First name</label>
+          <input type="text" id="signup-name" name="name" required autocomplete="given-name" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-field">
+          <label for="signup-invitedby">Which friend invited you? <span style="opacity:0.6;font-weight:400;">(optional)</span></label>
+          <input type="text" id="signup-invitedby" name="invited_by" autocomplete="off" placeholder="Their first name will do" />
+        </div>
+        <button type="submit" class="form-submit" id="formSubmit">Yes — I'm In</button>
+        <p class="form-fine">No fee · Personal invite only · We'll only email about the mastermind.</p>
+      </form>
+    </div>
+
+    <!-- Mode B: apply — shown when no token, invalid token, or used token -->
+    <div id="apply-mode" style="display:none;">
+      <h2 class="fade-up">Didn't get a personal invite link? Apply to be considered.</h2>
+      <p class="lede fade-up">This room is invite-only. If your link expired, was shared with you second-hand, or you found us on your own — fill this in. We'll review and get back to you.</p>
+
+      <form class="signup-form" id="applyForm" autocomplete="on">
+        <h3>Apply to join</h3>
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+        <div class="form-field">
+          <label for="apply-name">First name</label>
+          <input type="text" id="apply-name" name="name" required autocomplete="given-name" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label for="apply-email">Email</label>
+          <input type="email" id="apply-email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-field">
+          <label for="apply-building">What are you building right now?</label>
+          <textarea id="apply-building" name="building" rows="3" required placeholder="A sentence or two on what you're working on at the cutting edge."></textarea>
+        </div>
+        <div class="form-field">
+          <label for="apply-why">Why do you want in? <span style="opacity:0.6;font-weight:400;">(optional)</span></label>
+          <textarea id="apply-why" name="why" rows="2" placeholder="What you'd bring or what you'd hope to take from the room."></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="applySubmit">Apply for consideration</button>
+        <p class="form-fine">We review every application personally. No mass list, no marketing.</p>
+      </form>
+    </div>
+
+    <!-- Loading skeleton shown while checking ?i= -->
+    <div id="loading-mode" style="text-align:center; padding: 40px 20px; color: rgba(255,255,255,0.6);">
+      <p>Checking your invite…</p>
+    </div>
+
   </div>
 </section>
 
@@ -1199,40 +1236,128 @@
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
   }
 
-  // ─── Sign-up form (self-hosted mastermind-reminders endpoint) ───
-  const form = document.getElementById('signupForm');
-  if (form) {
-    form.addEventListener('submit', async (e) => {
+  // ─── Mode-aware signup: invite-confirm vs apply ───
+  const API_BASE = 'https://superhero.aiprofits.cc';
+
+  function showMode(mode) {
+    document.getElementById('loading-mode').style.display = (mode === 'loading') ? 'block' : 'none';
+    document.getElementById('invite-mode').style.display = (mode === 'invite') ? 'block' : 'none';
+    document.getElementById('apply-mode').style.display = (mode === 'apply') ? 'block' : 'none';
+  }
+
+  async function detectMode() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('i');
+    if (!token) { showMode('apply'); return; }
+
+    showMode('loading');
+    try {
+      const res = await fetch(`${API_BASE}/api/check-invite/${encodeURIComponent(token)}`, { cache: 'no-store' });
+      const data = await res.json();
+      if (data.valid) {
+        document.getElementById('signup-token').value = token;
+        if (data.recipient_name) {
+          const headline = document.getElementById('invite-headline');
+          const firstName = data.recipient_name.split(' ')[0];
+          headline.textContent = `${firstName}, the room said yes. Pick a future.`;
+          document.getElementById('signup-name').value = data.recipient_name;
+        }
+        showMode('invite');
+      } else {
+        // Invalid / used / revoked — silently fall back to apply mode
+        showMode('apply');
+      }
+    } catch (err) {
+      // Network error — be forgiving, show apply
+      showMode('apply');
+    }
+  }
+
+  detectMode();
+
+  // ─── Invite-confirm form submit ───
+  const signupForm = document.getElementById('signupForm');
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submit = document.getElementById('formSubmit');
       submit.textContent = 'Sending…';
       submit.disabled = true;
       try {
-        const formData = new FormData(form);
+        const formData = new FormData(signupForm);
         const payload = Object.fromEntries(formData);
-        const res = await fetch('https://superhero.aiprofits.cc/api/signup', {
+        const res = await fetch(`${API_BASE}/api/signup`, {
           method: 'POST',
           body: JSON.stringify(payload),
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         });
-        if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
           submit.textContent = 'Sent!';
           submit.classList.add('success');
           setTimeout(() => {
-            form.innerHTML = `<div class="form-success-msg">
+            signupForm.innerHTML = `<div class="form-success-msg">
               <span class="check">✓</span>
               <h3>You're in.</h3>
               <p class="success-lead">Welcome to the room. Here's what happens next:</p>
               <ol class="success-steps">
                 <li>Check your <strong>inbox in the next few minutes</strong> for a quick confirmation from us.</li>
-                <li>The <strong>day before the next meeting</strong>, you'll get the Zoom link by email.</li>
+                <li>The <strong>day before the next meeting</strong>, you'll get the join link by email.</li>
                 <li><strong>Show up, hang out, leave with three new ideas.</strong> That's the whole drill.</li>
               </ol>
               <p class="success-note">No homework. No pre-reads. Just turn up and play. See you in the room.</p>
             </div>`;
           }, 800);
+        } else if (data.inviteStatus) {
+          // Invite expired/used between page load and submit — bounce to apply
+          submit.textContent = 'This invite is no longer active';
+          setTimeout(() => showMode('apply'), 1200);
         } else {
-          submit.textContent = 'Something went wrong — try again';
+          submit.textContent = data.error || 'Something went wrong — try again';
+          submit.disabled = false;
+        }
+      } catch (err) {
+        submit.textContent = 'Something went wrong — try again';
+        submit.disabled = false;
+      }
+    });
+  }
+
+  // ─── Apply form submit ───
+  const applyForm = document.getElementById('applyForm');
+  if (applyForm) {
+    applyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submit = document.getElementById('applySubmit');
+      submit.textContent = 'Sending…';
+      submit.disabled = true;
+      try {
+        const formData = new FormData(applyForm);
+        const payload = Object.fromEntries(formData);
+        const res = await fetch(`${API_BASE}/api/apply`, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
+          submit.textContent = 'Sent!';
+          submit.classList.add('success');
+          setTimeout(() => {
+            applyForm.innerHTML = `<div class="form-success-msg">
+              <span class="check">✓</span>
+              <h3>Got it.</h3>
+              <p class="success-lead">Application received. Here's what happens next:</p>
+              <ol class="success-steps">
+                <li>We <strong>read every application personally</strong> — usually within a week.</li>
+                <li>If it's a fit, you'll get a <strong>personal invite link by email</strong>.</li>
+                <li>If not right now, no hard feelings — we'll keep your details on file.</li>
+              </ol>
+              <p class="success-note">Thanks for putting yourself forward.</p>
+            </div>`;
+          }, 800);
+        } else {
+          submit.textContent = data.error || 'Something went wrong — try again';
           submit.disabled = false;
         }
       } catch (err) {
