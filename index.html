@@ -228,6 +228,34 @@
       font-weight: 600;
       margin-top: 6px;
     }
+    .countdown-times {
+      margin-top: 22px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 14px;
+      padding: 10px 18px;
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+    }
+    .countdown-times strong {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .countdown-times .dot {
+      color: var(--ink-soft);
+      opacity: 0.5;
+    }
+    @media (max-width: 480px) {
+      .countdown-times { font-size: 0.85rem; padding: 10px 14px; }
+      .countdown-times .dot { display: none; }
+    }
     .countdown-meta {
       margin-top: 18px;
       color: var(--ink);
@@ -835,7 +863,7 @@
         <div class="hero-cta-row">
           <a href="#signup" class="btn-primary">Yes — I'm In</a>
         </div>
-        <div class="hero-trust">Next meeting: <strong id="event-date">—</strong> · Live on Zoom · ~90 minutes · Personal invite only.</div>
+        <div class="hero-trust">Next meeting: <strong id="event-date">—</strong> · 9am London · 10am Madrid · 11am Bucharest · ~90 minutes · Personal invite only.</div>
       </div>
       <div class="hero-image">
         <img src="images/hero.png" alt="A small group of AI superheroes — the room you've been invited into" loading="eager" />
@@ -854,6 +882,13 @@
       <div class="countdown-cell"><div class="countdown-num" id="cd-hours">—</div><div class="countdown-unit">Hours</div></div>
       <div class="countdown-cell"><div class="countdown-num" id="cd-mins">—</div><div class="countdown-unit">Minutes</div></div>
       <div class="countdown-cell"><div class="countdown-num" id="cd-secs">—</div><div class="countdown-unit">Seconds</div></div>
+    </div>
+    <div class="countdown-times">
+      <span><strong>9:00</strong> London</span>
+      <span class="dot">·</span>
+      <span><strong>10:00</strong> Madrid</span>
+      <span class="dot">·</span>
+      <span><strong>11:00</strong> Bucharest</span>
     </div>
     <p class="countdown-meta">Biweekly. Same time, same room. Drop in when life allows. Drop out when it doesn't. Nobody keeps score.</p>
   </div>
@@ -1008,7 +1043,7 @@
     <h2 class="fade-up">A biweekly Zoom. A small room. People you'll genuinely enjoy.</h2>
     <div class="offer-box fade-up">
       <ul class="offer-list">
-        <li><span class="label">When:</span><span>Biweekly · Next meeting <strong id="offer-date">—</strong> at 8pm UK time</span></li>
+        <li><span class="label">When:</span><span>Biweekly · Next meeting <strong id="offer-date">—</strong> · 9am London / 10am Madrid / 11am Bucharest</span></li>
         <li><span class="label">Where:</span><span>Zoom (link sent the day before)</span></li>
         <li><span class="label">How long:</span><span>~90 minutes — turn up, share, listen, leave</span></li>
         <li><span class="label">Format:</span><span>Loose. Show-and-tell. Q&amp;A. Real banter.</span></li>
@@ -1166,23 +1201,39 @@
 
 <script>
   // ═══════════════════════════════════════════════════════════════════
-  //  CONFIG — edit ONLY these two constants to change the schedule
-  //  ANCHOR_DATE = a known meeting date/time (any past or future meeting)
+  //  CONFIG — edit ONLY these constants to change the schedule
+  //  ANCHOR_DATE_STR = ISO calendar date (yyyy-mm-dd) of a known meeting
+  //  MEETING_HOUR_LONDON = local meeting hour in Europe/London (0-23)
   //  INTERVAL_DAYS = cadence between meetings (14 = biweekly)
-  //  The next-meeting countdown auto-rolls forward forever from the anchor.
+  //  The countdown auto-rolls forward forever, DST-safe.
+  //  Time triple: London ⋅ Madrid (+1h) ⋅ Bucharest (+2h) — offsets hold year-round.
   // ═══════════════════════════════════════════════════════════════════
-  const ANCHOR_DATE = new Date('2026-05-16T19:00:00Z'); // Sat 16 May 2026, 8pm UK summer time
+  const ANCHOR_DATE_STR = '2026-05-16';      // Saturday 16 May 2026 — first meeting
+  const MEETING_HOUR_LONDON = 9;             // 9am London = 10am Madrid = 11am Bucharest
   const INTERVAL_DAYS = 14;
 
-  // ─── Compute the next upcoming meeting from the anchor ───
+  // ─── Compute "MEETING_HOUR_LONDON on yyyy-mm-dd, Europe/London time" as a real Date ───
+  function londonMeetingTime(yyyymmdd) {
+    const [y, m, d] = yyyymmdd.split('-').map(Number);
+    const probe = new Date(Date.UTC(y, m - 1, d, MEETING_HOUR_LONDON, 0, 0));
+    const londonHour = parseInt(probe.toLocaleString('en-GB', {
+      timeZone: 'Europe/London', hour: 'numeric', hour12: false
+    }), 10);
+    return new Date(probe.getTime() - (londonHour - MEETING_HOUR_LONDON) * 3600 * 1000);
+  }
+
+  // ─── Compute the next upcoming meeting from the anchor (DST-safe) ───
   function nextMeetingDate() {
     const now = new Date();
-    const intervalMs = INTERVAL_DAYS * 24 * 60 * 60 * 1000;
-    let next = new Date(ANCHOR_DATE);
-    if (next > now) return next;
-    const diffMs = now - next;
-    const cyclesPassed = Math.floor(diffMs / intervalMs) + 1;
-    return new Date(next.getTime() + cyclesPassed * intervalMs);
+    let cursor = londonMeetingTime(ANCHOR_DATE_STR);
+    if (cursor > now) return cursor;
+    const dayMs = 24 * 60 * 60 * 1000;
+    while (cursor <= now) {
+      const next = new Date(cursor.getTime() + INTERVAL_DAYS * dayMs);
+      const nextDateStr = next.toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+      cursor = londonMeetingTime(nextDateStr);
+    }
+    return cursor;
   }
   const NEXT_MEETING = nextMeetingDate();
 
@@ -1198,9 +1249,9 @@
   function updateCountdown() {
     const now = new Date();
     let diff = CURRENT_TARGET - now;
-    // If meeting passed mid-session, roll to the one after
+    // If meeting passed mid-session, re-derive next from the (DST-safe) helper
     if (diff <= 0) {
-      CURRENT_TARGET = new Date(CURRENT_TARGET.getTime() + INTERVAL_DAYS * 24 * 60 * 60 * 1000);
+      CURRENT_TARGET = nextMeetingDate();
       diff = CURRENT_TARGET - now;
     }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
