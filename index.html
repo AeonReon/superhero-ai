@@ -61,12 +61,20 @@
       background: var(--ink);
       color: var(--cream);
       text-align: center;
-      padding: 12px 24px;
-      font-size: 0.92rem;
+      padding: 14px 24px;
+      font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: 0.02em;
+      line-height: 1.5;
     }
     .pre-strip .accent { color: var(--gold); }
+    .pre-strip .strip-date { color: var(--gold); font-weight: 800; }
+    .pre-strip .strip-sep { opacity: 0.45; margin: 0 6px; }
+    @media (max-width: 600px) {
+      .pre-strip { font-size: 0.85rem; padding: 12px 16px; }
+      .pre-strip .strip-sep { display: none; }
+      .pre-strip .strip-line { display: block; }
+    }
 
     /* ─── Hero ─── */
     .hero {
@@ -202,31 +210,37 @@
     .countdown-grid {
       display: flex;
       justify-content: center;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
     }
     .countdown-cell {
       background: var(--cream);
-      border: 2px solid var(--ink);
-      border-radius: 14px;
-      padding: 18px 20px;
-      min-width: 90px;
-      box-shadow: var(--shadow-sm);
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 28px 28px;
+      min-width: 120px;
+      box-shadow: 0 6px 0 var(--ink);
     }
     .countdown-num {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: 900;
       color: var(--accent);
       line-height: 1;
     }
     .countdown-unit {
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--ink-soft);
-      font-weight: 600;
-      margin-top: 6px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+    @media (max-width: 600px) {
+      .countdown-grid { gap: 10px; }
+      .countdown-cell { padding: 18px 14px; min-width: 72px; border-width: 2px; border-radius: 14px; box-shadow: 0 4px 0 var(--ink); }
+      .countdown-num { font-size: 2.2rem; }
+      .countdown-unit { font-size: 0.7rem; margin-top: 6px; }
     }
     .countdown-times {
       margin-top: 22px;
@@ -849,7 +863,7 @@
 
 <!-- ═══════════════ PRE-HEADLINE STRIP ═══════════════ -->
 <div class="pre-strip">
-  ⚡ <span class="accent">You got the invite for a reason.</span> Next meeting in <span id="strip-countdown">—</span>. See you there.
+  <span class="strip-line">⚡ Next event: <span class="strip-date" id="strip-date">—</span></span><span class="strip-sep">·</span><span class="strip-line">9am London / 10am Madrid / 11am Bucharest</span><span class="strip-sep">·</span><span class="strip-line">starts in <span id="strip-countdown">—</span></span>
 </div>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -1237,11 +1251,15 @@
   }
   const NEXT_MEETING = nextMeetingDate();
 
-  // ─── Format the human-readable event date ───
+  // ─── Format the human-readable event date (long form + short for strip) ───
   (function formatEventDate() {
-    const opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    const formatted = NEXT_MEETING.toLocaleDateString('en-GB', opts);
-    document.querySelectorAll('#event-date, #offer-date').forEach(el => el.textContent = formatted);
+    const longOpts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    const shortOpts = { weekday: 'short', day: 'numeric', month: 'short' };
+    const long = NEXT_MEETING.toLocaleDateString('en-GB', longOpts);
+    const short = NEXT_MEETING.toLocaleDateString('en-GB', shortOpts);
+    document.querySelectorAll('#event-date, #offer-date').forEach(el => el.textContent = long);
+    const stripDate = document.getElementById('strip-date');
+    if (stripDate) stripDate.textContent = short;
   })();
 
   // ─── Live countdown (drives both visible countdowns + the strip) ───
