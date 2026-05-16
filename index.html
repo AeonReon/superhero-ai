@@ -1315,6 +1315,15 @@
   }
 
   async function detectMode() {
+    const params = new URLSearchParams(window.location.search);
+
+    // Confirmation flow: ?confirm=<token> in URL → finalise the signup
+    const confirmToken = params.get('confirm');
+    if (confirmToken) {
+      await handleConfirmation(confirmToken);
+      return;
+    }
+
     // Step 1: check site config — is invite required, or is the page open?
     let requireInvite = false;
     try {
@@ -1326,7 +1335,6 @@
       requireInvite = false;
     }
 
-    const params = new URLSearchParams(window.location.search);
     const token = params.get('i');
 
     // Open mode: just show the signup form, prefill if a token happens to be present
@@ -1369,6 +1377,51 @@
     }
   }
 
+  async function handleConfirmation(token) {
+    showMode('loading');
+    try {
+      const res = await fetch(`${API_BASE}/api/confirm/${encodeURIComponent(token)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+      // Show success/failure in the invite-mode area, but replace the form
+      const inviteSection = document.getElementById('invite-mode');
+      const applySection = document.getElementById('apply-mode');
+      applySection.style.display = 'none';
+      inviteSection.style.display = 'block';
+      document.getElementById('loading-mode').style.display = 'none';
+      const formContainer = document.getElementById('signupForm');
+      if (res.ok && data.success) {
+        const headline = document.getElementById('invite-headline');
+        const firstName = (data.name || '').split(' ')[0];
+        headline.textContent = data.alreadyConfirmed
+          ? `You were already in${firstName ? `, ${firstName}` : ''}.`
+          : `Confirmed${firstName ? `, ${firstName}` : ''}. You're in.`;
+        formContainer.innerHTML = `<div class="form-success-msg">
+          <span class="check">✓</span>
+          <h3>${data.alreadyConfirmed ? 'Already confirmed' : 'You’re in.'}</h3>
+          <p class="success-lead">Welcome to the room. Here's what happens next:</p>
+          <ol class="success-steps">
+            <li>Check your <strong>inbox</strong> for a fresh welcome email.</li>
+            <li>The <strong>day before each fortnightly session</strong>, you'll get the join link.</li>
+            <li><strong>Show up, hang out, leave with three new ideas.</strong> That's the whole drill.</li>
+          </ol>
+          <p class="success-note">See you in the room.</p>
+        </div>`;
+      } else {
+        document.getElementById('invite-headline').textContent = 'This link is no longer valid.';
+        formContainer.innerHTML = `<div class="form-success-msg">
+          <h3>Couldn't confirm.</h3>
+          <p class="success-lead">${data.error || 'This confirmation link has expired or already been used.'}</p>
+          <p class="success-note">Refresh the page to sign up again, or get in touch and we'll sort it.</p>
+        </div>`;
+      }
+    } catch (e) {
+      showMode('apply');
+    }
+  }
+
   detectMode();
 
   // ─── Invite-confirm form submit ───
@@ -1393,15 +1446,15 @@
           submit.classList.add('success');
           setTimeout(() => {
             signupForm.innerHTML = `<div class="form-success-msg">
-              <span class="check">✓</span>
-              <h3>You're in.</h3>
-              <p class="success-lead">Welcome to the room. Here's what happens next:</p>
+              <span class="check">✉</span>
+              <h3>Check your inbox.</h3>
+              <p class="success-lead">We just sent you a confirmation email. <strong>One quick click</strong> and you're in.</p>
               <ol class="success-steps">
-                <li>Check your <strong>inbox in the next few minutes</strong> for a quick confirmation from us.</li>
-                <li>The <strong>day before the next meeting</strong>, you'll get the join link by email.</li>
-                <li><strong>Show up, hang out, leave with three new ideas.</strong> That's the whole drill.</li>
+                <li><strong>Check your inbox AND your spam folder.</strong> First emails from new senders often land in spam.</li>
+                <li>If you find it in spam, <strong>tap "Not spam"</strong> first — that trains your inbox so all future mastermind emails arrive cleanly.</li>
+                <li>Then <strong>tap the "Confirm my spot" button</strong> in the email.</li>
               </ol>
-              <p class="success-note">No homework. No pre-reads. Just turn up and play. See you in the room.</p>
+              <p class="success-note">No confirmation click = no reminders. We do this on purpose — only people who actually want in get the join links.</p>
             </div>`;
           }, 800);
         } else if (data.inviteStatus) {
